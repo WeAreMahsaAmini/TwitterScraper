@@ -2,16 +2,18 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	twitterscraper "github.com/n0madic/twitter-scraper"
 )
 
 func main() {
 	scraper := twitterscraper.New()
-	f, err := os.Create("tweets.txt")
+	f, err := os.Create("tweets.json")
 
 	if err != nil {
 		log.Fatal(err)
@@ -19,22 +21,29 @@ func main() {
 
 	defer f.Close()
 
-	fmt.Println("done")
+	tweets := []*twitterscraper.TweetResult{}
 	for tweet := range scraper.SearchTweets(context.Background(),
-		"برای #مهسا_امینی", 50) {
+		"برای #مهسا_امینی", 100) {
 		if tweet.Error != nil {
 			panic(tweet.Error)
 		}
-		_, err2 := f.WriteString(tweet.Text + "\n")
 
-		if err2 != nil {
-			log.Fatal(err2)
-		}
-		_, err3 := f.WriteString("-------------------------\n")
+		if strings.HasPrefix(tweet.Text, "برای") {
 
-		if err3 != nil {
-			log.Fatal(err3)
+			tweets = append(tweets, tweet)
 		}
-		fmt.Println(tweet.Text)
+
+	}
+
+	b, err := json.Marshal(tweets)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	_, err2 := f.WriteString(string(b))
+
+	if err2 != nil {
+		log.Fatal(err2)
 	}
 }
