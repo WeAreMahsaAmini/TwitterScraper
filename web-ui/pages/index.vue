@@ -1,12 +1,14 @@
 <template>
-  <div class="leading-loose">
+  <div>
     <div class="flex justify-center flex-wrap py-5 w-full">
       <div v-for="(tweet, index) in pageTweets" :key="index">
         <tweet-card
+          class="bg-opacity-75"
           :id="tweet.Username"
           :hashtags="tweet.Hashtags"
           :likes="tweet.Likes"
           :retweets="tweet.Retweets"
+          :timestamp="tweet.Timestamp"
         >
           {{ tweet.Text }}
         </tweet-card>
@@ -21,6 +23,25 @@
         class="pButton hover:bg-purple-300"
       ></div>
     </div>
+    <div class="flex justify-center mt-2">
+      <input
+        :value="tweetPerPage"
+        @input="(event) => (tweetPerPage = parseInt(event.target.value))"
+        type="number"
+        class="
+          h-8
+          w-10
+          rounded
+          bg-blue-400
+          text-center
+          opacity-75
+          hover:opacity-100
+          text-white
+          p-0
+        "
+        required
+      />
+    </div>
   </div>
 </template>
 
@@ -33,15 +54,21 @@ export default {
       activeBtnKey: 1,
       pagesCount: 0,
       pageTweets: [],
-      tweetPerPage: 10,
+      tweetPerPage: 5,
     };
   },
   mounted() {
     this.tweets = json;
     this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
-    this.pageTweets = this.tweets.slice(0, this.tweetPerPage);
+    this.pageChange(this.activeBtnKey);
   },
-  computed: {},
+  updated() {
+    if (this.tweetPerPage > this.tweets.length)
+      this.tweetPerPage = this.tweets.length;
+    if (this.tweetPerPage < 1) this.tweetPerPage = 1;
+    this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
+    this.pageChange(this.activeBtnKey);
+  },
   methods: {
     pageChange(key) {
       this.activeBtnKey = key;

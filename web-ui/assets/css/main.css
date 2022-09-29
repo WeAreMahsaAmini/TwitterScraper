@@ -1,5 +1,9 @@
 body {
-    background-color: #1DA1F2;
+    background-color:#262626;
+    background-image: url('../images/twitter.svg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center ;
     max-width: 100%;
 }
 
