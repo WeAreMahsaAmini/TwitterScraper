@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import json from "./../../tweets.json";
+import json from "@/assets/tweets.json";
 export default {
   data() {
     return {
