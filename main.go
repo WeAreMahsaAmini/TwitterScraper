@@ -1,15 +1,14 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
 	"io"
-	"log"
 	"os"
-
+	"log"
+	"fmt"
+	"context"
 	"strconv"
 	"strings"
+	"encoding/json"
 
 	twitterscraper "github.com/n0madic/twitter-scraper"
 )
@@ -35,7 +34,6 @@ func main() {
 	f, err := os.Open("tweets.json")
 	if err != nil {
 		fmt.Printf("error opening %s: %s", "tweets.json", err)
-
 	}
 
 	defer f.Close()
@@ -52,19 +50,17 @@ func main() {
 	fmt.Println("total begining: " + strconv.Itoa(len(tweets)))
 
 	total := 0
-	for tweet := range scraper.SearchTweets(context.Background(),
-		"برای #مهسا_امینی -filter:retweets ", 10000) {
+	for tweet := range scraper.SearchTweets(context.Background(), "برای #مهسا_امینی -filter:retweets ", 10000) {
 		total++
 		if tweet.Error != nil {
 			panic(tweet.Error)
 		}
 
 		if strings.HasPrefix(tweet.Text, "برای") {
-
 			tweets = append(tweets, tweet)
 		}
-
 	}
+
 	tweets = removeDuplicateValues(tweets)
 
 	fmt.Println("total received: " + strconv.Itoa(total))
