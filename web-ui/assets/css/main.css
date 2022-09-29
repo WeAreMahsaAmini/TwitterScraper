@@ -1,0 +1,24 @@
+body {
+    background-color: #1DA1F2;
+    max-width: 100%;
+}
+
+.pButton {
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin-right: 20px;
+    background-color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s ease width;
+}
+
+.pButton:last-child {
+    margin-right: 0;
+}
+
+.pButton.active {
+    width: 60px;
+    cursor: auto;
+}
