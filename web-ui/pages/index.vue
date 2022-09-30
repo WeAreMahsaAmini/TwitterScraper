@@ -10,7 +10,7 @@
           :retweets="tweet.Retweets"
           :timestamp="tweet.Timestamp"
         >
-          {{ tweet.Text }}
+          {{ lang === "en" ? tweet.Translation : tweet.Text }}
         </tweet-card>
       </div>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import json from "@/assets/tweets.json";
+import json from "~~/assets/tweets.json";
 
 const DEFAULT_TWEETS_PER_PAGE = 100;
 export default {
@@ -47,6 +47,7 @@ export default {
       pagesCount: Math.ceil(json.length / DEFAULT_TWEETS_PER_PAGE),
       pageTweets: [],
       tweetPerPage: DEFAULT_TWEETS_PER_PAGE,
+      lang: document.location.pathname.includes("/fa") ? "fa" : "en",
     };
   },
   mounted() {
@@ -59,8 +60,8 @@ export default {
     this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
-    })
+      behavior: "smooth",
+    });
   },
   methods: {
     pageChange(key) {
