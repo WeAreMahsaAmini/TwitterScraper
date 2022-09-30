@@ -15,6 +15,24 @@ import (
 	twitterscraper "github.com/n0madic/twitter-scraper"
 )
 
+type (
+	Tweet struct {
+		Hashtags     []string
+		HTML         string
+		ID           string
+		Likes        int
+		PermanentURL string
+		Photos       []string
+		Replies      int
+		Retweets     int
+		Text         string
+		Timestamp    int64
+		UserID       string
+		Username     string
+		Videos       []twitterscraper.Video
+	}
+)
+
 type ByLikeAndRetweet []*twitterscraper.TweetResult
 
 func (a ByLikeAndRetweet) Len() int { return len(a) }
@@ -95,7 +113,26 @@ func main() {
 
 	sort.Sort(ByLikeAndRetweet(tweets))
 
-	b, err := json.Marshal(tweets)
+	pruneTweets := []*Tweet{}
+	for _, tweet := range tweets {
+		pruneTweets = append(pruneTweets, &Tweet{
+			Hashtags:     tweet.Hashtags,
+			HTML:         tweet.HTML,
+			ID:           tweet.ID,
+			Likes:        tweet.Likes,
+			PermanentURL: tweet.PermanentURL,
+			Photos:       tweet.Photos,
+			Replies:      tweet.Replies,
+			Retweets:     tweet.Retweets,
+			Text:         tweet.Text,
+			Timestamp:    tweet.Timestamp,
+			UserID:       tweet.UserID,
+			Username:     tweet.Username,
+			Videos:       tweet.Videos,
+		})
+	}
+
+	b, err := json.Marshal(pruneTweets)
 	if err != nil {
 		fmt.Println(err)
 		return

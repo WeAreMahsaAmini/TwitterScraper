@@ -38,7 +38,7 @@
 <script>
 import json from "@/assets/tweets.json";
 
-const DEFAULT_TWEETS_PER_PAGE = 5;
+const DEFAULT_TWEETS_PER_PAGE = 100;
 export default {
   data() {
     return {
@@ -57,9 +57,10 @@ export default {
       this.tweetPerPage = this.tweets.length;
     if (this.tweetPerPage < 1) this.tweetPerPage = 1;
     this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
-  },
-  beforeUpdate() {
-    
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
   },
   methods: {
     pageChange(key) {
