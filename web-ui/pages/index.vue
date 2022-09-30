@@ -26,19 +26,9 @@
     <div class="flex justify-center mt-2">
       <input
         :value="tweetPerPage"
-        @input="(event) => (tweetPerPage = parseInt(event.target.value))"
+        @input="(event) => (tweetPerPage = parseInt(event.target.value || 0))"
         type="number"
-        class="
-          h-8
-          w-10
-          rounded
-          bg-blue-400
-          text-center
-          opacity-75
-          hover:opacity-100
-          text-white
-          p-0
-        "
+        class="h-8 w-10 rounded bg-blue-400 text-center opacity-75 hover:opacity-100 text-white p-0"
         required
       />
     </div>
@@ -47,41 +37,58 @@
 
 <script>
 import json from "@/assets/tweets.json";
+
+const DEFAULT_TWEETS_PER_PAGE = 5;
 export default {
   data() {
     return {
-      tweets: [],
+      tweets: json,
       activeBtnKey: 1,
-      pagesCount: 0,
+      pagesCount: Math.ceil(json.length / DEFAULT_TWEETS_PER_PAGE),
       pageTweets: [],
-      tweetPerPage: 5,
+      tweetPerPage: DEFAULT_TWEETS_PER_PAGE,
     };
   },
   mounted() {
-    this.tweets = json;
-    this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
-    this.pageChange(this.activeBtnKey);
+    this.loadTweets();
   },
   updated() {
     if (this.tweetPerPage > this.tweets.length)
       this.tweetPerPage = this.tweets.length;
     if (this.tweetPerPage < 1) this.tweetPerPage = 1;
     this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
-    this.pageChange(this.activeBtnKey);
+  },
+  beforeUpdate() {
+    
   },
   methods: {
     pageChange(key) {
       this.activeBtnKey = key;
-      let startIdx = (key - 1) * this.tweetPerPage;
-      this.pageTweets = this.tweets.slice(
-        startIdx,
-        startIdx + this.tweetPerPage
-      );
     },
     isActive: function (key) {
       if (this.activeBtnKey === key) {
         return "active";
       }
+    },
+    loadTweets() {
+      let startIdx = (this.activeBtnKey - 1) * this.tweetPerPage;
+      this.pageTweets = this.tweets.slice(
+        startIdx,
+        startIdx + this.tweetPerPage
+      );
+    },
+  },
+  watch: {
+    activeBtnKey(val, oldVal) {
+      this.loadTweets();
+    },
+    tweetPerPage(val, oldVal) {
+      if (val > this.tweets.length) {
+        this.tweetPerPage = this.tweets.length;
+      } else if (this.tweetPerPage < 1) {
+        this.tweetPerPage = 1;
+      }
+      this.loadTweets();
     },
   },
 };
