@@ -41,7 +41,7 @@ func removeDuplicateValues(intSlice []*twitterscraper.TweetResult) []*twitterscr
 
 func main() {
 	scraper := twitterscraper.New()
-	f, err := os.Open("tweets.json")
+	f, err := os.Open("./web-ui/assets/tweets.json")
 	if err != nil {
 		fmt.Printf("error opening %s: %s", "tweets.json", err)
 	}
@@ -52,7 +52,7 @@ func main() {
 	tweets := []*twitterscraper.TweetResult{}
 	json.Unmarshal(byteValue, &tweets)
 
-	f, err = os.Create("tweets.json")
+	f, err = os.Create("./web-ui/assets/tweets.json")
 	if err != nil {
 		log.Fatal(err)
 	}
