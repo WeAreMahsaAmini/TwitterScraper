@@ -15,11 +15,11 @@
         <img src="https://img.shields.io/github/license/WeAreMahsaAmini/TwitterScraper?style=plastic" alt="License Apache 2">
     </a>
     <br>
-    <a href="https://discord.gg/JJsKx9de2a">
-        <img src="https://dcbadge.vercel.app/api/server/ASDSFjGAAW?style=social" alt="chat on Discord">
-    </a>
     <a href="/">
         <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/WeAreMahsaAmini/TwitterScraper?style=social">
+    </a>
+    <a href="https://discord.gg/JJsKx9de2a">
+        <img src="https://img.shields.io/discord/1024073094366769283?logo=discord&&style=plastic" alt="chat on Discord">
     </a>
     <a href="https://github.com/WeAreMahsaAmini">
         <img alt="GitHub followers" src="https://img.shields.io/github/followers/WeAreMahsaAmini?color=black&style=social">
