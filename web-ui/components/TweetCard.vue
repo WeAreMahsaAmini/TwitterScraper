@@ -16,7 +16,7 @@ export default {
       let format = time.getHours() + ":" + time.getMinutes();
       return format;
     },
-    direction() {
+    directionStyle() {
       return {
         direction: this.direction
       }
@@ -25,7 +25,7 @@ export default {
 };
 </script>
 <template>
-  <div class="bg-gray-50 hover:bg-white rounded-xl m-1 p-4 w-80 shadow">
+  <div class="bg-gray-50 hover:bg-white rounded-xl m-auto p-4 w-80 shadow">
     <div class="flex justify-between mb-3">
       <div>
         <div class="font-bold leading-tight">{{ name }}</div>
@@ -34,7 +34,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="mb-3 text-gray-700" :style="direction"><slot /></div>
+    <div class="mb-3 text-gray-700" :style="directionStyle"><slot /></div>
     <div class="mb-3 text-sm text-gray-700 p-1">
       <div
         v-for="hashtag in hashtags"

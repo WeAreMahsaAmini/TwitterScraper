@@ -13,20 +13,30 @@
         <span class="fi" :class="flag"></span>
       </a>
     </div>
-    <div class="flex justify-center flex-wrap py-5 w-full">
-      <div v-for="(tweet, index) in pageTweets" :key="index">
-        <tweet-card
-          class="bg-opacity-75"
-          :id="tweet.Username"
-          :hashtags="tweet.Hashtags"
-          :likes="tweet.Likes"
-          :retweets="tweet.Retweets"
-          :timestamp="tweet.Timestamp"
-          :direction="lang === 'en' ? 'ltr' : 'rtl'"
-        >
-          {{ lang === "en" ? tweet.Translation : tweet.Text }}
-        </tweet-card>
-      </div>
+    <div class="flex justify-center flex-wrap p-5 w-full">
+      <masonry-wall
+        :items="pageTweets"
+        :ssr-columns="1"
+        :column-width="300"
+        :gap="16"
+        :rtl="lang === 'fa'"
+        class="w-full"
+      >
+        <template #default="{ item, index }" class="flex justify-center">
+          <tweet-card
+            class="bg-opacity-75"
+            :id="item.Username"
+            :hashtags="item.Hashtags"
+            :likes="item.Likes"
+            :retweets="item.Retweets"
+            :timestamp="item.Timestamp"
+            :direction="lang === 'en' ? 'ltr' : 'rtl'"
+            :key="index"
+          >
+            {{ lang === "en" ? item.Translation : item.Text }}
+          </tweet-card>
+        </template>
+      </masonry-wall>
     </div>
     <div class="flex justify-center" id="pagination">
       <div
@@ -94,8 +104,8 @@ export default {
       );
     },
     changeLang() {
-      this.lang = document.location.hash.includes("fa") ? "fa" : "en"
-    }
+      this.lang = document.location.hash.includes("fa") ? "fa" : "en";
+    },
   },
   computed: {
     flag() {
@@ -103,7 +113,7 @@ export default {
     },
     link() {
       return this.lang === "en" ? "#fa" : "#en";
-    }
+    },
   },
   watch: {
     activeBtnKey(val, oldVal) {
