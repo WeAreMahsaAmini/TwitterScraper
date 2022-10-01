@@ -1,8 +1,19 @@
 <script>
-import {HeartIcon, ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline";
+import {
+  HeartIcon,
+  ArrowPathRoundedSquareIcon,
+} from "@heroicons/vue/24/outline";
 
 export default {
-  props: ["name", "hashtags", "id", "likes", "retweets", "timestamp", "direction"],
+  props: [
+    "name",
+    "hashtags",
+    "id",
+    "likes",
+    "retweets",
+    "timestamp",
+    "direction",
+  ],
   components: { ArrowPathRoundedSquareIcon, HeartIcon },
   computed: {
     showDate() {
@@ -18,14 +29,14 @@ export default {
     },
     directionStyle() {
       return {
-        direction: this.direction
-      }
-    }
+        direction: this.direction,
+      };
+    },
   },
 };
 </script>
 <template>
-  <div class="bg-gray-50 hover:bg-white rounded-xl m-auto p-4 w-80 shadow">
+  <div class="bg-white hover:bg-white rounded-xl m-auto p-3 w-full tcard">
     <div class="flex justify-between mb-3">
       <div>
         <div class="font-bold leading-tight">{{ name }}</div>
@@ -59,7 +70,8 @@ export default {
       </div>
 
       <div>
-        <ArrowPathRoundedSquareIcon class="inline h-6 w-6 text-black" />: {{ retweets }}
+        <ArrowPathRoundedSquareIcon class="inline h-6 w-6 text-black" />:
+        {{ retweets }}
       </div>
     </div>
     <div
@@ -67,3 +79,10 @@ export default {
     ></div>
   </div>
 </template>
+
+<style scoped>
+.tcard {
+  min-width: 100px;
+  max-width: 400px;
+}
+</style>

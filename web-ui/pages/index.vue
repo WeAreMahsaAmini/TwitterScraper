@@ -1,17 +1,17 @@
 <template>
   <div v-if="loading">
-    <div class="mt-3 text-center text-white">loading ...</div>
+    <div class="mt-3 text-center text-white"></div>
   </div>
   <div v-else>
     <div class="flex justify-center flex-col px-8 mt-4">
       <h1
         v-if="lang === 'en'"
-        class="font-mono text-3xl text-center text-gray-100"
+        class="font-mono text-lg text-center text-gray-100"
       >
         Best of 'for ...' tweet collections (reasons for the protests from
         Iranian)
       </h1>
-      <h1 v-else-if="lang === 'fa'" class="text-3xl text-center text-gray-100">
+      <h1 v-else-if="lang === 'fa'" class="text-lg text-center text-gray-100">
         «لیست منتخب توییت های «برای
       </h1>
       <hr class="full-width fill-white mt-5 mx-8" />
@@ -59,15 +59,14 @@
         توییت در صفحه:
       </div>
     </div>
-    <div class="flex justify-center flex-wrap p-5 w-full">
+    <div class="my-2 px-4">
       <masonry-wall
         :items="pageTweets"
+        :column-width="320"
+        :gap="15"
         :ssr-columns="1"
-        :column-width="300"
-        :gap="16"
-        class="w-full"
       >
-        <template #default="{ item, index }" class="flex justify-center">
+        <template #default="{ item, index }">
           <tweet-card
             class="bg-opacity-75"
             :id="item.Username"
@@ -88,6 +87,7 @@
 
 <script>
 import json from "~/assets/tweets.json";
+import Loading1 from "../components/Loading.vue";
 const DEFAULT_TWEETS_PER_PAGE = 25;
 
 export default {
@@ -153,6 +153,7 @@ export default {
       this.setLang();
     },
   },
+  components: { Loading1 },
 };
 </script>
 <style>
