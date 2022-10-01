@@ -43,7 +43,7 @@ Hoping for a day when all people can live freely and fulfill their dreams.
 ## Executing Twitter Scraper
 ```bash
 go mod tidy
-go get main.go
+go run main.go
 ```
 
 ## Setup Web UI
