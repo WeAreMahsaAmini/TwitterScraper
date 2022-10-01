@@ -87,3 +87,5 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
+## Do you want to contribute ?
+Read [HOW TO CONTRIBUTE](https://github.com/WeAreMahsaAmini/Core/blob/main/CONTRIBUTING.md) guide, if you have an idea for this project, open an issue and explain yourself, then feel free to fork the project and create a pull request. 
