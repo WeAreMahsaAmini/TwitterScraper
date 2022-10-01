@@ -16,6 +16,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.1",
     "@heroicons/vue": "^2.0.11",
     "bootstrap": "^5.2.1",
+    "flag-icons": "^6.6.6",
     "tailwindcss": "^2.2.19"
   }
 }

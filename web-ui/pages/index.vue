@@ -1,5 +1,18 @@
 <template>
   <div>
+    <div class="flex justify-center flex-col px-8 mt-4">
+      <h1 class="font-mono text-3xl text-center text-gray-100">
+        {{
+          lang === "en"
+            ? "List of reasons for the protests from Iranian"
+            : "لیست برای های ایرانیان برای اعتراضات"
+        }}
+      </h1>
+      <hr class="full-width fill-white mt-5 mx-8" />
+      <a :href="link" :onclick="changeLang" class="fixed top-2 left-3">
+        <span class="fi" :class="flag"></span>
+      </a>
+    </div>
     <div class="flex justify-center flex-wrap py-5 w-full">
       <div v-for="(tweet, index) in pageTweets" :key="index">
         <tweet-card
@@ -9,6 +22,7 @@
           :likes="tweet.Likes"
           :retweets="tweet.Retweets"
           :timestamp="tweet.Timestamp"
+          :direction="lang === 'en' ? 'ltr' : 'rtl'"
         >
           {{ lang === "en" ? tweet.Translation : tweet.Text }}
         </tweet-card>
@@ -47,7 +61,7 @@ export default {
       pagesCount: Math.ceil(json.length / DEFAULT_TWEETS_PER_PAGE),
       pageTweets: [],
       tweetPerPage: DEFAULT_TWEETS_PER_PAGE,
-      lang: document.location.pathname.includes("/fa") ? "fa" : "en",
+      lang: document.location.hash.includes("fa") ? "fa" : "en",
     };
   },
   mounted() {
@@ -79,6 +93,17 @@ export default {
         startIdx + this.tweetPerPage
       );
     },
+    changeLang() {
+      this.lang = document.location.hash.includes("fa") ? "fa" : "en"
+    }
+  },
+  computed: {
+    flag() {
+      return this.lang === "en" ? "fi-ir" : "fi-us";
+    },
+    link() {
+      return this.lang === "en" ? "#fa" : "#en";
+    }
   },
   watch: {
     activeBtnKey(val, oldVal) {

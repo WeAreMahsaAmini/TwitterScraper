@@ -1,8 +1,9 @@
 <script>
-import { HandThumbUpIcon, ArrowPathIcon } from "@heroicons/vue/24/solid";
+import {HeartIcon, ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline";
+
 export default {
-  props: ["name", "hashtags", "id", "likes", "retweets", "timestamp"],
-  components: { HandThumbUpIcon, ArrowPathIcon },
+  props: ["name", "hashtags", "id", "likes", "retweets", "timestamp", "direction"],
+  components: { ArrowPathRoundedSquareIcon, HeartIcon },
   computed: {
     showDate() {
       let date = new Date(this.timestamp * 1000).toDateString();
@@ -15,6 +16,11 @@ export default {
       let format = time.getHours() + ":" + time.getMinutes();
       return format;
     },
+    direction() {
+      return {
+        direction: this.direction
+      }
+    }
   },
 };
 </script>
@@ -28,7 +34,7 @@ export default {
         </div>
       </div>
     </div>
-    <div class="mb-3 text-gray-700" style="direction: rtl"><slot /></div>
+    <div class="mb-3 text-gray-700" :style="direction"><slot /></div>
     <div class="mb-3 text-sm text-gray-700 p-1">
       <div
         v-for="hashtag in hashtags"
@@ -49,11 +55,11 @@ export default {
     </div>
     <div class="flex justify-center mb-3 text-sm leading-tight text-gray-700">
       <div class="mr-2">
-        <HandThumbUpIcon class="inline h-6 w-6 text-black" />: {{ likes }}
+        <HeartIcon class="inline h-6 w-6 text-black" />: {{ likes }}
       </div>
 
       <div>
-        <ArrowPathIcon class="inline h-6 w-6 text-black" />: {{ retweets }}
+        <ArrowPathRoundedSquareIcon class="inline h-6 w-6 text-black" />: {{ retweets }}
       </div>
     </div>
     <div
