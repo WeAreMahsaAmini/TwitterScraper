@@ -19,6 +19,46 @@
         <span class="fi" :class="flag"></span>
       </NuxtLink>
     </div>
+
+    <div class="flex justify-center mt-2" id="pagination">
+      <div
+        v-for="index in pagesCount"
+        :key="index"
+        @click="pageChange(index)"
+        :class="isActive(index)"
+        class="pButton hover:bg-purple-300"
+      ></div>
+    </div>
+    <div class="flex justify-center p-1 mt-2">
+      <div v-if="lang === 'en'" class="p-1 content-center text-white">
+        <span>Tweet per page:</span>
+      </div>
+      <input
+        :value="tweetPerPage"
+        @input="(event) => (tweetPerPage = parseInt(event.target.value || 0))"
+        type="number"
+        class="
+          h-8
+          w-12
+          rounded
+          bg-blue-400
+          text-center
+          opacity-75
+          hover:opacity-100
+          text-white
+          p-0
+          mb-0
+        "
+        required
+      />
+      <div
+        v-if="lang === 'fa'"
+        class="p-1 content-center text-white"
+        style="direction: rtl"
+      >
+        توییت در صفحه:
+      </div>
+    </div>
     <div class="flex justify-center flex-wrap p-5 w-full">
       <masonry-wall
         :items="pageTweets"
@@ -43,40 +83,12 @@
         </template>
       </masonry-wall>
     </div>
-    <div class="flex justify-center" id="pagination">
-      <div
-        v-for="index in pagesCount"
-        :key="index"
-        @click="pageChange(index)"
-        :class="isActive(index)"
-        class="pButton hover:bg-purple-300"
-      ></div>
-    </div>
-    <div class="flex justify-center mt-2">
-      <input
-        :value="tweetPerPage"
-        @input="(event) => (tweetPerPage = parseInt(event.target.value || 0))"
-        type="number"
-        class="
-          h-8
-          w-10
-          rounded
-          bg-blue-400
-          text-center
-          opacity-95
-          hover:opacity-100
-          text-white
-          p-0
-        "
-        required
-      />
-    </div>
   </div>
 </template>
 
 <script>
 import json from "~/assets/tweets.json";
-const DEFAULT_TWEETS_PER_PAGE = 100;
+const DEFAULT_TWEETS_PER_PAGE = 25;
 
 export default {
   data() {
@@ -92,7 +104,7 @@ export default {
   },
   async mounted() {
     this.tweets = json;
-    this.pagesCoun = Math.ceil(this.tweets.length / DEFAULT_TWEETS_PER_PAGE);
+    this.pagesCount = Math.ceil(this.tweets.length / DEFAULT_TWEETS_PER_PAGE);
     this.setLang();
     this.loadTweets();
     this.loading = false;
