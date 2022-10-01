@@ -1,6 +1,8 @@
 body {
-  background-color: #262626;
+  background: linear-gradient(180deg, #0038A8 0%, #9B4F96 60%, #D60270 100%);
   max-width: 100%;
+  min-height: 100vh;
+  background-repeat: no-repeat;
 }
 
 body:before {

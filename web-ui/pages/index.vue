@@ -1,17 +1,23 @@
 <template>
-  <div>
+  <div v-if="loading">
+    <div class="mt-3 text-center text-white">loading ...</div>
+  </div>
+  <div v-else>
     <div class="flex justify-center flex-col px-8 mt-4">
-      <h1 class="font-mono text-3xl text-center text-gray-100">
-        {{
-          lang === "en"
-            ? "List of reasons for the protests from Iranian"
-            : "لیست برای های ایرانیان برای اعتراضات"
-        }}
+      <h1
+        v-if="lang === 'en'"
+        class="font-mono text-3xl text-center text-gray-100"
+      >
+        Best of 'for ...' tweet collections (reasons for the protests from
+        Iranian)
+      </h1>
+      <h1 v-else-if="lang === 'fa'" class="text-3xl text-center text-gray-100">
+        «لیست منتخب توییت های «برای
       </h1>
       <hr class="full-width fill-white mt-5 mx-8" />
-      <a :href="link" :onclick="changeLang" class="fixed top-2 left-3">
+      <NuxtLink :href="link" class="fixed top-2 left-3">
         <span class="fi" :class="flag"></span>
-      </a>
+      </NuxtLink>
     </div>
     <div class="flex justify-center flex-wrap p-5 w-full">
       <masonry-wall
@@ -19,7 +25,6 @@
         :ssr-columns="1"
         :column-width="300"
         :gap="16"
-        :rtl="lang === 'fa'"
         class="w-full"
       >
         <template #default="{ item, index }" class="flex justify-center">
@@ -52,7 +57,17 @@
         :value="tweetPerPage"
         @input="(event) => (tweetPerPage = parseInt(event.target.value || 0))"
         type="number"
-        class="h-8 w-10 rounded bg-blue-400 text-center opacity-75 hover:opacity-100 text-white p-0"
+        class="
+          h-8
+          w-10
+          rounded
+          bg-blue-400
+          text-center
+          opacity-95
+          hover:opacity-100
+          text-white
+          p-0
+        "
         required
       />
     </div>
@@ -60,32 +75,27 @@
 </template>
 
 <script>
-import json from "~~/assets/tweets.json";
-
+import json from "~/assets/tweets.json";
 const DEFAULT_TWEETS_PER_PAGE = 100;
+
 export default {
   data() {
     return {
-      tweets: json,
+      loading: true,
+      tweets: null,
       activeBtnKey: 1,
-      pagesCount: Math.ceil(json.length / DEFAULT_TWEETS_PER_PAGE),
+      pagesCount: null,
       pageTweets: [],
       tweetPerPage: DEFAULT_TWEETS_PER_PAGE,
-      lang: document.location.hash.includes("fa") ? "fa" : "en",
+      lang: "",
     };
   },
-  mounted() {
+  async mounted() {
+    this.tweets = json;
+    this.pagesCoun = Math.ceil(this.tweets.length / DEFAULT_TWEETS_PER_PAGE);
+    this.setLang();
     this.loadTweets();
-  },
-  updated() {
-    if (this.tweetPerPage > this.tweets.length)
-      this.tweetPerPage = this.tweets.length;
-    if (this.tweetPerPage < 1) this.tweetPerPage = 1;
-    this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    this.loading = false;
   },
   methods: {
     pageChange(key) {
@@ -103,8 +113,8 @@ export default {
         startIdx + this.tweetPerPage
       );
     },
-    changeLang() {
-      this.lang = document.location.hash.includes("fa") ? "fa" : "en";
+    setLang() {
+      this.lang = this.$route.hash.substring(1) || "en";
     },
   },
   computed: {
@@ -126,6 +136,9 @@ export default {
         this.tweetPerPage = 1;
       }
       this.loadTweets();
+    },
+    "$route.hash"(newVal) {
+      this.setLang();
     },
   },
 };

@@ -1,5 +1,6 @@
 <script setup>
 import "/node_modules/flag-icons/css/flag-icons.min.css";
+
 useHead({
   title: "For you ...",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
@@ -8,5 +9,8 @@ useHead({
 </script>
 
 <template>
-  <NuxtPage />
+  <div>
+    <client-only />
+    <NuxtPage />
+  </div>
 </template>
