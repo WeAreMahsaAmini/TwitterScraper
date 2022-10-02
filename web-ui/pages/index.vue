@@ -1,6 +1,6 @@
 <template>
   <div v-if="loading">
-    <div class="mt-3 text-center text-white">loading ...</div>
+    <div class="mt-3 text-center text-white"></div>
   </div>
   <div class="bg-gray-50" v-else>
     <div class='relative bg-zinc-900 border-b shadow'>
@@ -104,6 +104,7 @@
 
 <script>
 import json from "~/assets/tweets.json";
+import Loading1 from "../components/Loading.vue";
 const DEFAULT_TWEETS_PER_PAGE = 25;
 
 export default {
@@ -174,6 +175,7 @@ export default {
       this.setLang();
     },
   },
+  components: { Loading1 },
 };
 </script>
 <style>

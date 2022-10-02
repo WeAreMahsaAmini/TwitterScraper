@@ -2,7 +2,15 @@
 import { HeartIcon, ArrowPathRoundedSquareIcon } from "@heroicons/vue/24/outline";
 
 export default {
-  props: ["name", "hashtags", "id", "likes", "retweets", "timestamp", "direction"],
+  props: [
+    "name",
+    "hashtags",
+    "id",
+    "likes",
+    "retweets",
+    "timestamp",
+    "direction",
+  ],
   components: { ArrowPathRoundedSquareIcon, HeartIcon },
   computed: {
     humanLikes() {
@@ -66,3 +74,10 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+.tcard {
+  min-width: 100px;
+  max-width: 400px;
+}
+</style>
