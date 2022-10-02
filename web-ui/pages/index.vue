@@ -2,82 +2,98 @@
   <div v-if="loading">
     <div class="mt-3 text-center text-white">loading ...</div>
   </div>
-  <div v-else>
-    <div class="flex justify-center flex-col px-8 mt-4">
-      <h1
-        v-if="lang === 'en'"
-        class="font-mono text-3xl text-center text-gray-100"
-      >
-        Best of 'for ...' tweet collections (reasons for the protests from
-        Iranian)
-      </h1>
-      <h1 v-else-if="lang === 'fa'" class="text-3xl text-center text-gray-100">
-        «لیست منتخب توییت های «برای
-      </h1>
-      <hr class="full-width fill-white mt-5 mx-8" />
-      <NuxtLink :href="link" class="fixed top-2 left-3">
-        <span class="fi" :class="flag"></span>
-      </NuxtLink>
+  <div class="bg-gray-50" v-else>
+    <div class='relative bg-zinc-900 border-b shadow'>
+      <div class='mx-auto max-w-6xl h-16 flex items-center justify-between px-10 lg:px-0'>
+        <div v-if="lang === 'en'">
+          <h1 class="text-xl text-white font-normal">
+            Best of <span class="font-black text-blue-400">for…</span> tweet collections
+          </h1>
+          <h2 class="text-white text-sm leading-none">Reasons for the protests from Iranian</h2>
+        </div>
+        <NuxtLink :href="link">
+          <span class="fi" :class="flag"></span>
+        </NuxtLink>
+        <div v-if="lang === 'fa'" dir="rtl">
+          <h1 class="text-xl text-white font-normal">
+            لیست منتخب توییت‌های <span class="font-black text-blue-400">برای…</span>
+          </h1>
+          <h2 class="text-white text-sm leading-none">دلایلی برای اعتراضات در ایران</h2>
+        </div>
+      </div>
+    </div>
+    <div class="relative gap-2 items-center bg-gray-200 rounded-b-3xl mb-16 justify-center text-center">
+      <div class="max-w-6xl mx-auto">
+        <div class="relative grid grid-cols-1 md:grid-cols-6 lg:grid-cols-5">
+          <div
+            class="col-span-4 lg:col-span-3 px-10 py-10 lg:px-0 lg:py-10 text-center md:text-start z-10 flex items-center">
+            <div class="space-y-10">
+              <div>
+                <h1 class="text-4xl font-black">Best of <span class="font-black text-blue-400">for…</span> tweet
+                  collections</h1>
+                <h2 class="text-xl font-light mb-3">Reasons for the protests from Iranian</h2>
+              </div>
+            </div>
+          </div>
+          <div
+            class='absolute bottom-0 w-full opacity-10 md:opacity-100 pt-5 z-0 md:relative col-span-2 lg:col-span-2 flex justify-end content-end items-end align-bottom'>
+            <img src="../assets/images/poster.png" alt="Mahsa Amini Poster" class="w-3/4 mx-auto" />
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="flex justify-center mt-2" id="pagination">
-      <div
-        v-for="index in pagesCount"
-        :key="index"
-        @click="pageChange(index)"
-        :class="isActive(index)"
-        class="pButton hover:bg-purple-300"
-      ></div>
-    </div>
-    <div class="flex justify-center p-1 mt-2">
-      <div v-if="lang === 'en'" class="p-1 content-center text-white">
-        <span>Tweet per page:</span>
-      </div>
-      <input
-        :value="tweetPerPage"
-        @input="(event) => (tweetPerPage = parseInt(event.target.value || 0))"
-        type="number"
-        class="
-          h-8
+    <div class="flex justify-between items-center max-w-6xl mx-auto md:rounded-xl bg-white p-3 shadow">
+      <div class="flex items-center gap-x-2">
+        <div v-if="lang === 'en'">
+          <span>Tweet per page:</span>
+        </div>
+        <input :value="tweetPerPage" @input="(event) => (tweetPerPageChange(parseInt(event.target.value || 0)))"
+          type="number" class="
+          text-sm
+          py-2
           w-12
           rounded
-          bg-blue-400
           text-center
-          opacity-75
-          hover:opacity-100
-          text-white
-          p-0
+          border
+          border-gray-300
           mb-0
-        "
-        required
-      />
-      <div
-        v-if="lang === 'fa'"
-        class="p-1 content-center text-white"
-        style="direction: rtl"
-      >
-        توییت در صفحه:
+        " required />
+        <div v-if="lang === 'fa'" dir="rtl">
+          توییت در صفحه:
+        </div>
+      </div>
+      <div class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+        <div @click="pageChange(activeBtnKey - 1)" v-if="activeBtnKey > 1"
+          class="relative inline-flex cursor-pointer items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-500 hover:bg-gray-50">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            aria-hidden="true">
+            <path fill-rule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div v-for="index in pagesCount" :key="index" @click="pageChange(index)" :class="isActive(index)"
+          class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium cursor-pointer">
+          {{ index }}
+        </div>
+        <div @click="pageChange(activeBtnKey + 1)" v-if="activeBtnKey < pagesCount"
+          class="relative inline-flex cursor-pointer items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+            aria-hidden="true">
+            <path fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </div>
       </div>
     </div>
     <div class="flex justify-center flex-wrap p-5 w-full">
-      <masonry-wall
-        :items="pageTweets"
-        :ssr-columns="1"
-        :column-width="300"
-        :gap="16"
-        class="w-full"
-      >
+      <masonry-wall :items="pageTweets" :ssr-columns="1" :column-width="300" :gap="16" class="w-full">
         <template #default="{ item, index }" class="flex justify-center">
-          <tweet-card
-            class="bg-opacity-75"
-            :id="item.Username"
-            :hashtags="item.Hashtags"
-            :likes="item.Likes"
-            :retweets="item.Retweets"
-            :timestamp="item.Timestamp"
-            :direction="lang === 'en' ? 'ltr' : 'rtl'"
-            :key="index"
-          >
+          <tweet-card class="bg-opacity-75" :id="item.Username" :hashtags="item.Hashtags" :likes="item.Likes"
+            :retweets="item.Retweets" :timestamp="item.Timestamp" :direction="lang === 'en' ? 'ltr' : 'rtl'"
+            :key="index">
             {{ lang === "en" ? item.Translation : item.Text }}
           </tweet-card>
         </template>
@@ -113,9 +129,14 @@ export default {
     pageChange(key) {
       this.activeBtnKey = key;
     },
+    tweetPerPageChange(key) {
+      this.tweetPerPage = key;
+      this.pagesCount = Math.ceil(this.tweets.length / this.tweetPerPage);
+      this.loadTweets();
+    },
     isActive: function (key) {
       if (this.activeBtnKey === key) {
-        return "active";
+        return "z-10 bg-blue-50 hover:bg-blue-50 border-blue-500 text-blue-500 font-black";
       }
     },
     loadTweets() {
@@ -156,8 +177,14 @@ export default {
 };
 </script>
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Changa:wght@600&family=Noto+Sans+Arabic:wght@500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
 body {
-  font-family: "Noto Sans Arabic", sans-serif;
+  font-family: 'Nunito', sans-serif;
 }
+
+[dir='rtl'] {
+  font-family: 'Vazirmatn';
+}
+
 </style>

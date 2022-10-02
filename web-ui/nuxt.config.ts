@@ -3,8 +3,8 @@ export default defineNuxtConfig({
     // ssr: false,
     css: [
         //'bootstrap/dist/css/bootstrap.min.css',
-        '@/assets/css/main.css',
-        'tailwindcss/dist/tailwind.min.css'
+        '~/assets/css/main.css',
+        '~/assets/css/tailwind.css'
     ],
     script: [
         {
@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     build: {
         transpile: [
             "@heroicons/vue",
-        ]
+        ],
+        postcss: {
+            postcssOptions: require('./postcss.config.js'),
+        },
     }
 })
