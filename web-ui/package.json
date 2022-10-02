@@ -8,7 +8,10 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.11"
+    "autoprefixer": "^10.4.12",
+    "nuxt": "3.0.0-rc.11",
+    "postcss": "^8.4.17",
+    "tailwindcss": "^3.1.8"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.0",
@@ -17,7 +20,6 @@
     "@heroicons/vue": "^2.0.11",
     "@yeger/vue-masonry-wall": "^3.2.6",
     "bootstrap": "^5.2.1",
-    "flag-icons": "^6.6.6",
-    "tailwindcss": "^2.2.19"
+    "flag-icons": "^6.6.6"
   }
 }
