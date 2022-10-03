@@ -87,7 +87,6 @@
 
 <script>
 import json from "~/assets/tweets.json";
-import Loading1 from "../components/Loading.vue";
 const DEFAULT_TWEETS_PER_PAGE = 25;
 
 export default {
@@ -153,7 +152,6 @@ export default {
       this.setLang();
     },
   },
-  components: { Loading1 },
 };
 </script>
 <style>
