@@ -125,7 +125,7 @@ func stringBinarySearch(element string, slice []string) bool {
 }
 
 // Fetch ("برای") tweets
-// It's recives stored tweets id for don't fetch tweets that already fetched
+// It's recives stored tweets ID for don't fetch tweets that already fetched
 // Returns:
 // Number of fetched tweets, Tweets, Error
 func fetchTweets(stored_tweets_id []string) (int, []*twitterscraper.TweetResult, error) {
