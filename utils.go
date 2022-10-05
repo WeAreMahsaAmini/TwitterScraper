@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -80,7 +81,7 @@ func dumpTweetsToFile(path string, tweets []*Tweet) error {
 	return json.NewEncoder(f).Encode(tweets)
 }
 
-// TODO: It should fetched only ID field from file only all the values, and then ignore unwanted fields
+// TODO: It should extract only ID fields from json file.(NOT LOAD ALL DATA AND THEN FILTER THE "ID" FIELDS)
 func loadTweetsIDFromFile(path string) ([]string, error) {
 	data, err := loadTweetsFromFile(path)
 	if err != nil {
@@ -102,20 +103,31 @@ func loadTweetsIDFromFile(path string) ([]string, error) {
 // 	return list
 // }
 
-// TODO: Do binary search instead of linear
+// We'll do a string binary search
+// ID's are number so we can do binary sort on numbers, But then we should convert all string ID's to int (Probably it takes more cost)
 func isIDExistInIDs(id string, ids []string) bool {
-	for i := range ids {
-		if ids[i] == id {
-			return true
-		}
-	}
-	return false
+	return stringBinarySearch(id, ids)
 }
 
-// Fetch specific tweets ("برای")
-// It's recive stored tweets for don't fetch tweets that already fetched
+func stringBinarySearch(element string, slice []string) bool {
+	if !sort.StringsAreSorted(slice) {
+		sort.Strings(slice)
+	}
+	// SearchStrings return where element(input) should be inserted in slice (say returns i)
+	// If i == len(ids), means that element not exists and should be inserted in end of slice
+	// If i < len(ids), means that element exists or should be inserted in slice[i], So if slice[i] == element, then means that element exists, otherwise it's not exists
+	i := sort.SearchStrings(slice, element)
+	if i < len(slice) && slice[i] == element {
+		return true
+	} else {
+		return false
+	}
+}
+
+// Fetch ("برای") tweets
+// It's recives stored tweets id for don't fetch tweets that already fetched
 // Returns:
-// fetched tweets, Tweets, Error
+// Number of fetched tweets, Tweets, Error
 func fetchTweets(stored_tweets_id []string) (int, []*twitterscraper.TweetResult, error) {
 	// fetched count (filtered and unfiltered)
 	// It's all tweets that program fetched, not only needed ones
